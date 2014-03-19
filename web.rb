@@ -14,5 +14,6 @@ The Big Broadcast is WAMU 88.5's longest-running program. The show features a co
 		rss << item
 	end
 
+	content_type 'application/rss+xml'
 	rss.generate
 end

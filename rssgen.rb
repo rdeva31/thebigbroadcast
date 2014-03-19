@@ -66,8 +66,7 @@ class RSSGen
 	end
 
 	def generate()
-		%Q{
-<?xml version="1.0" encoding="UTF-8" ?>
+		%Q{<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
 	<channel>
 			#{generate_title()}
@@ -135,7 +134,7 @@ class RSSGen
 			#{generate_tag("title", item.title)}
 			#{generate_tag("description", item.description)}
 			#{generate_tag("link", item.link)}
-			#{generate_tag("guid", item.guid)}
+			#{generate_tag("guid", item.guid ? item.guid : item.link)}
 			#{generate_tag("pubDate", item.pub_date ?
 					item.pub_date.rfc822 : nil)}
 		})
