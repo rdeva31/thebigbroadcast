@@ -13,11 +13,11 @@ class TheBigBroadcast
 
 		count.times do |c|
 			day = last_sunday - (7 * c)
+			link = day.strftime(
+					"http://downloads.wamu.org/mp3/bb/%y/%m/b1%y%m%d.mp3");
 			shows << RSSGen::Item.new(
-				"The Big Broadcast #{day.day}/#{day.month}/#{day.year}",
-				day.strftime(
-					"http://downloads.wamu.org/mp3/bb/%y/%m/b1%y%m%d.mp3"),
-				"No description")
+				"The Big Broadcast #{day.strftime("%d/%m/%y")}",
+				link, "No description", link, day)
 		end
 
 		return shows
