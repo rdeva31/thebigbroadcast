@@ -1,3 +1,4 @@
+require 'net/http'
 require 'date'
 require './rssgen.rb'
 
@@ -15,11 +16,24 @@ class TheBigBroadcast
 			day = last_sunday - (7 * c)
 			link = day.strftime(
 					"http://downloads.wamu.org/mp3/bb/%y/%m/b1%y%m%d.mp3");
-			shows << RSSGen::Item.new(
-				"The Big Broadcast #{day.strftime("%d/%m/%y")}",
+			if (valid(link)) then
+				shows << RSSGen::Item.new(
+				"The Big Broadcast #{day.strftime("%m/%-d/%y")}",
 				link, "No description", link, day)
+			end
 		end
 
 		return shows
+	end
+
+	private
+	def self.valid(link)
+		begin
+			uri = URI.parse(link)
+			req = Net::HTTP.new(uri.host, uri.port).request_head(uri.path)
+			return !(req.code =~ /4../)
+		rescue URI::InvalidURIError => e
+			return false
+		end
 	end
 end
