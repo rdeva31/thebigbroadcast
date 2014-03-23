@@ -88,17 +88,17 @@ class RSSGen
 
 	def generate_tag(tag, content, attributes = nil)
 		content = content.strip if content
-		if content != nil then
-			return %Q{
-			<#{tag} #{attributes}>
-				#{content}
-			</#{tag}>}
+		if content == nil then
+			return ""
 		elsif content == "" then
 			return %Q{
 			<#{tag} #{attributes} />
 			}
 		else
-			return ""
+			return %Q{
+			<#{tag} #{attributes}>
+				#{content}
+			</#{tag}>}
 		end
 	end
 
