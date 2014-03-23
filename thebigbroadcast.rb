@@ -19,7 +19,7 @@ class TheBigBroadcast
 			if (valid(link)) then
 				shows << RSSGen::Item.new(
 				"The Big Broadcast #{day.strftime("%m/%-d/%y")}",
-				link, "No description", link, day)
+				link, "No description", link, day, "audio/mpeg")
 			end
 		end
 

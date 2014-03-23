@@ -11,14 +11,16 @@ class RSSGen
 		attr_reader :link
 		attr_reader :guid
 		attr_reader :pub_date
+		attr_reader :mime
 
 		def initialize(title, link, description = nil,
-			       guid = nil, pub_date = nil)
+			       guid = nil, pub_date = nil, mime = nil)
 			@title = title
 			@description = description
 			@link = link
 			@guid = guid
 			@pub_date = pub_date
+			@mime = mime
 		end
 	end
 
@@ -84,12 +86,17 @@ class RSSGen
 
 	private
 
-	def generate_tag(tag, content)
+	def generate_tag(tag, content, attributes = nil)
+		content = content.strip if content
 		if content != nil then
 			return %Q{
-			<#{tag}>
+			<#{tag} #{attributes}>
 				#{content}
 			</#{tag}>}
+		elsif content == "" then
+			return %Q{
+			<#{tag} #{attributes} />
+			}
 		else
 			return ""
 		end
@@ -137,6 +144,8 @@ class RSSGen
 			#{generate_tag("guid", item.guid ? item.guid : item.link)}
 			#{generate_tag("pubDate", item.pub_date ?
 					item.pub_date.rfc822 : nil)}
+			#{generate_tag("enclosure", "",
+					%Q{url="#{item.link}" length="0" type="#{item.mime}"})}
 		})
 	end
 end
